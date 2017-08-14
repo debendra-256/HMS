@@ -572,6 +572,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\TemplateEntry.cshtml" />
     <Content Include="Views\PatientEntry\PatientsEntry.cshtml" />
+    <Content Include="Views\PatientEntry\patientDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

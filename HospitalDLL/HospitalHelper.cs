@@ -63,24 +63,29 @@ namespace HospitalDLL
 
 
 
-        //public SqlDataReader GetTemplatedta(SqlCommand cmd)
-        //{
+        public DataTable GetALL(SqlCommand cmd)
+        {
+            ad = new SqlDataAdapter();
+            DataTable dt = new DataTable();
 
-        //    using (connect())
-        //    {
+            using (connect())
+            {
 
-        //        using (cmd)
-        //        {
-        //            cmd.Connection = connect();
+                using (cmd)
+                {
+                    cmd.Connection = connect();
+                    ad.SelectCommand = cmd;
 
-        //            dr = cmd.ExecuteReader();
+                    ad.Fill(dt);
 
-        //        }
-        //    }
+                }
+            }
 
-        //    return dr;
+            return dt;
 
-        //}
+            
+          
+        }
 
 
 

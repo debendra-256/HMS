@@ -1,0 +1,171 @@
+﻿@model IEnumerable<HMSMODEL.PatientEntry>
+
+@{
+    ViewBag.Title = "patientDetails";
+    
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>  
+<style type="text/css">
+    .webgrid-table {
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        font-size: 1.2em;
+        width: 300px;
+        display: table;
+        border-collapse: separate;
+        border: solid 1px;
+        background-color: purple;
+    }
+
+        .webgrid-table td, th {
+            border: 3px solid;
+            padding: 3px 7px 2px;
+            width: 230px;
+        }
+
+    .webgrid-header {
+        background-color:whitesmoke;
+        color: #FFFFFF;
+        padding-bottom: 4px;
+        padding-top: 5px;
+        text-align: left;
+        width: 20%;
+    }
+
+    .webgrid-footer {
+    }
+
+    .webgrid-row-style {
+        padding: 3px 7px 2px;
+    }
+
+    .webgrid-alternating-row {
+        background-color: #EAF2D3;
+        padding: 3px 7px 2px;
+    }
+</style>
+
+<script type="text/javascript">
+
+
+    $(function () {
+        $('.edit-mode').hide();
+        $('.edit-user, .cancel-user').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            tr.find('.edit-mode, .display-mode').toggle();
+        });
+        $('.Delete-user').on('click', function () {
+            if (confirm("Are you sure?")) {
+                var tr = $(this).parents('tr:first');
+                var ID = tr.find("#lbl_Empid").html();
+                var UserModel =
+                    {
+                        "EmpId": ID
+                    }
+                $.ajax({
+                    url: '/Home/DeleteUser/',
+                    data: JSON.stringify(UserModel),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        location.reload();
+                    }
+
+                });
+            }
+            else {
+                var tr = $(this).parents('tr:first');
+                tr.find('.edit-mode, .display-mode').toggle();
+
+            }
+        });
+        $('.save-user').on('click', function () {
+            var tr = $(this).parents('tr:first');
+            var ID = tr.find("#lbl_Empid").html();
+            var Name = tr.find("#txt_employeeName").val();
+            var Location = tr.find("#txt_location").val();
+            var Department = tr.find("#txt_dept").val();
+            var companyName = tr.find("#txt_company").val();
+
+
+            tr.find("#lblemployeename").text(Name);
+            tr.find("#lbl_dept").text(Department);
+            tr.find("#lbl_company").text(companyName);
+            tr.find("#lbl_location").text(Location);
+            tr.find('.edit-mode, .display-mode').toggle();
+            var UserModel =
+                {
+                    "EmpId": ID,
+                    "EmpName": Name,
+                    "Location": Location,
+                    "Dept": Department,
+                    "CompanyName": companyName
+
+                };
+            $.ajax({
+                url: '/Home/Update/',
+                data: JSON.stringify(UserModel),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    window.location.href = window.location.href;
+                }
+
+            });
+
+        });
+    })
+</script>
+
+
+
+  
+
+<div>
+
+    <div>
+        @{
+            var grid = new WebGrid(Model, canPage: true, rowsPerPage: 10);
+            grid.Pager(WebGridPagerModes.All);
+         }
+
+
+</div>
+<h3>List of Patients</h3>
+
+    <div>
+        @grid.GetHtml(
+                   headerStyle: "webgrid-header",
+                footerStyle: "webgrid-footer",
+                alternatingRowStyle: "webgrid-alternating-row",
+                selectedRowStyle: "webgrid-selected-row",
+                rowStyle: "webgrid-row-style",
+                mode: WebGridPagerModes.All,
+             columns: grid.Columns(
+
+                grid.Column("ID", format: @<text>  <span class="display-mode">@item.ID </span> <label id="lbl_Empid" class="edit-mode">@item.ID</label> </text>, style: "col1Width"),
+
+                grid.Column(columnName: "FirstName", header: "First Name", format: @<text> <span class="display-mode">@item.FirstName <label id="lblfirstName"></label> </span>  <input type="text" id="txt_firstName" value="@item.FirstName" class="edit-mode" /> </text>, style: "col2Width"),
+
+                grid.Column(columnName: "LastName", header: "LastName", format: @<text> <span class="display-mode">@item.LastName <label id="lbl_lastname"></label> </span>  <input type="text" id="txt_lastName" value="@item.LastName" class="edit-mode" /> </text>, style: "col2Width"),
+
+                grid.Column(columnName: "Description", header: "Description", format: @<text> <span class="display-mode">@item.Description <label id="lbl_desc"></label> </span>  <input type="text" id="txt_desc" value="@item.Description" class="edit-mode" /> </text>, style: "col2Width"),
+
+
+                  grid.Column(columnName: "Address", header: "User Address", format: @<text> <span class="display-mode">@item.Address <label id="lbladdress"></label> </span>  <input type="text" id="txt_address" value="@item.Address" class="edit-mode" /> </text>, style: "col2Width"),
+
+                  grid.Column("Action", format: @<text>
+
+                    <button class="edit-user display-mode" style="background-color: #1E90FF; border-bottom-style: groove">Edit</button>
+                    <button class="save-user edit-mode" style="background-color: #FF5733; border-bottom-style: groove">Save</button>
+                    <button class="cancel-user edit-mode" style="background-color: #FF5733; border-bottom-style: groove">Cancel</button>
+                    <button class="Delete-user display-mode" style="background-color: #1E90FF; border-bottom-style: groove">Delete</button>
+                </text>, style: "col3Width", canSort: true)))
+
+
+    </div>
+
+
+
+</div>

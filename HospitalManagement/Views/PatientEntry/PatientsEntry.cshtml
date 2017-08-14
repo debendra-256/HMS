@@ -8,9 +8,10 @@
 @if (ViewBag.SuccessMessage != null)
 {
     <script type="text/javascript">
-            window.onload = function () {
-                alert("@ViewBag.Message");
-            };
+        window.onload = function (
+        {
+                alert(@ViewBag.Message);
+        };
     </script>
 }
 

@@ -61,12 +61,12 @@ namespace HospitalBLL
         }
         public bool PatientEntry(PatientEntry patent)
         {
-            patent.ID = Guid.NewGuid();
+            patent.ID = Guid.NewGuid().ToString();
       
             cmd = new SqlCommand("SP_PatientEntry");
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@EntryId", patent.ID);
-            cmd.Parameters.AddWithValue("@FirstName", patent.Description);
+            cmd.Parameters.AddWithValue("@FirstName", patent.FirstName);
             cmd.Parameters.AddWithValue("@LastName", patent.LastName);
             cmd.Parameters.AddWithValue("@Age", patent.Age);
             cmd.Parameters.AddWithValue("@Address", patent.Address);
@@ -76,6 +76,18 @@ namespace HospitalBLL
            bool result= _hospitalhelper.DML(cmd);
             return result;
            
+
+        }
+
+        public DataTable GetPatientEntry_onParticularDate()
+        {
+            dt = new DataTable();
+            cmd = new SqlCommand("SP_PatientEntry");
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Opptype", "Getall");
+            dt = _hospitalhelper.GetALL(cmd);
+            return dt;
+
 
         }
 
