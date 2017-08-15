@@ -1,0 +1,63 @@
+﻿@model IEnumerable<HMSMODEL.Template>
+
+@{
+    ViewBag.Title = "ViewTemplate";
+}
+
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<br />
+
+<div style="width:90%; margin:0 auto;">
+    <table id="myTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Header</th>
+                <th>Description</th>
+              
+            </tr>
+        </thead>
+    </table>
+</div>
+
+
+    @* CSS for the DataTable *@
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+
+<style>
+    tr.even {
+        background-color:whitesmoke !important;
+    }
+</style>
+@* Load datatable js *@
+@section Scripts{
+    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                "ajax": {
+                    "url": "/home/getData",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns" : [
+                        { "data": "id", "autoWidth": true },
+                        { "data": "Header", "autoWidth": true },
+                        { "data": "Description", "autoWidth": true }
+              
+
+
+
+                ],
+                select: true
+              
+
+
+            });
+        });
+
+    </script>
+    }

@@ -2,11 +2,15 @@
 
 @{
     ViewBag.Title = "patientDetails";
-    
+
 }
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>  
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Scripts/Calender/calendrical.css" rel="stylesheet" />
+<script src="~/Scripts/Calender/jquery.calendrical.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
 <style type="text/css">
     .webgrid-table {
         font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -25,7 +29,7 @@
         }
 
     .webgrid-header {
-        background-color:whitesmoke;
+        background-color: whitesmoke;
         color: #FFFFFF;
         padding-bottom: 4px;
         padding-top: 5px;
@@ -117,25 +121,23 @@
         });
     })
 </script>
+<br />
 
 
 
-  
 
-<div>
-
-    <div>
-        @{
-            var grid = new WebGrid(Model, canPage: true, rowsPerPage: 10);
-            grid.Pager(WebGridPagerModes.All);
-         }
+            <div>
+                @{
+                    var grid = new WebGrid(Model, canPage: true, rowsPerPage: 10);
+                    grid.Pager(WebGridPagerModes.All);
+                }
 
 
-</div>
-<h3>List of Patients</h3>
+            </div>
+            <h3>List of Patients</h3>
 
-    <div>
-        @grid.GetHtml(
+            <div>
+                @grid.GetHtml(
                    headerStyle: "webgrid-header",
                 footerStyle: "webgrid-footer",
                 alternatingRowStyle: "webgrid-alternating-row",
@@ -164,8 +166,8 @@
                 </text>, style: "col3Width", canSort: true)))
 
 
-    </div>
+            </div>
 
 
 
-</div>
+        </div>
