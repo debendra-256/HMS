@@ -44,13 +44,35 @@ namespace HospitalManagement.Controllers
             return View();
 
         }
-        [HttpPost]
-        public ActionResult TemplateEntry(Template temp)
-        {
-            obj.tabEntery(temp);
-            return View();
-            
+       
 
+        public ActionResult ViewTemplate()
+        {
+            return View();
+           
+
+
+        }
+        public ActionResult getData()
+        {
+
+            dt = new DataTable();
+
+            dt = obj.getTemplateData();
+
+
+            List<Template> list = new List<Template>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                Template temp1 = new Template();
+                temp1.id = Convert.ToInt32(dt.Rows[i]["id"]);
+                temp1.Header = dt.Rows[i]["Header"].ToString();
+                temp1.Description = dt.Rows[i]["Description"].ToString();
+                list.Add(temp1);
+            }
+            var data = list;
+            return Json(new { data = data }, JsonRequestBehavior.AllowGet);
         }
 
 
